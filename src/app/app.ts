@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { fromEvent, map, scan, throttleTime } from 'rxjs';
+import { fromEvent, map, Observable, scan, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,63 +11,44 @@ import { fromEvent, map, scan, throttleTime } from 'rxjs';
 export class App {
 
   constructor() {
-    this.example1();
-    // this.example2();
-    // this.example3();
-    // this.example4();
+    // this.example1();
+    this.example2();
   }
 
   example1() {
-    // document.addEventListener('click', () => console.log('Clicked!'));
-    fromEvent(document, 'click').subscribe(() => console.log('Clicked!'));
+    const myPromise = new Promise<number>((resolve, reject) => {
+      setTimeout(() => {
+        resolve(2);
+        // reject();
+      }, 300);
+    });
+
+    myPromise
+      .then((count) => count * count)
+      .then((result) => {
+        console.log('Result ', result)
+      })
   }
 
   example2() {
-    // let count = 0;
-    // document.addEventListener('click', () => console.log(`Clicked ${++count} times`));
+    const observable = new Observable<number>((subscriber) => {
+      subscriber.next(1);
+      subscriber.next(2);
+      subscriber.next(3);
+      setTimeout(() => {
+        subscriber.next(4);
+        subscriber.error(-1);
+        subscriber.complete();
+      }, 1000);
+    });
 
-    fromEvent(document, 'click')
-      .pipe(scan((count) => count + 1, 0))
-      .subscribe((count) => console.log(`Clicked ${count} times`));
+    const observer = {
+      next: ((x: number) => console.log('Next: ' + x)),
+      error: ((err: number) => console.error('Error: ' + err)),
+      complete: () => console.log('Completed'),
+    };
+
+    observable.subscribe(observer);
+
   }
-
-  example3() {
-    // let count = 0;
-    // let rate = 1000;
-    // let lastClick = Date.now() - rate;
-    // document.addEventListener('click', () => {
-    //   if (Date.now() - lastClick >= rate) {
-    //     console.log(`Clicked ${++count} times`);
-    //     lastClick = Date.now();
-    //   }
-    // });
-  
-    fromEvent(document, 'click')
-      .pipe(
-        throttleTime(1000),
-        scan((count) => count + 1, 0)
-      )
-      .subscribe((count) => console.log(`Clicked ${count} times`));
-  }
-
-  example4() {
-    // let count = 0;
-    // const rate = 1000;
-    // let lastClick = Date.now() - rate;
-    // document.addEventListener('click', (event) => {
-    //   if (Date.now() - lastClick >= rate) {
-    //     count += event.clientX;
-    //     console.log(count);
-    //     lastClick = Date.now();
-    //   }
-    // });
-  
-    fromEvent(document, 'click')
-      .pipe(
-        throttleTime(1000),
-        map((event) => (event as MouseEvent).clientX),
-        scan((count, clientX) => count + clientX, 0)
-      )
-      .subscribe((count) => console.log(count));
-      }
 }
