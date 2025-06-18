@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { delay, from, fromEvent, interval, of, range, tap, timer, timestamp, toArray } from 'rxjs';
+import { catchError, map, of, retry } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,30 +18,69 @@ export class App {
   }
 
   example1() {
-    of(Math.random()).pipe(
-      tap((value)=> console.log('Я побочный эффект ',value)),
-    ).subscribe(console.log);
+    of(1, 2, 3, 4, 5)
+      .pipe(
+        map(n => {
+          if (n === 4) {
+            throw 'four!';
+          }
+          return n;
+        }),
+        catchError(err => of('I', 'II', 'III', 'IV', 'V'))
+      )
+      .subscribe(x => console.log(x));
   }
 
   example2() {
-    fromEvent(document, 'click')
+    of(1, 2, 3, 4, 5)
       .pipe(
-        delay(1000)
+        map(n => {
+          if (n === 4) {
+            throw 'four!';
+          }
+          return n;
+        }),
+        catchError((err, caught) => {
+          return caught
+        }),
       )
-      .subscribe(event => console.log(event));
+      .subscribe(x => console.log(x));
   } 
 
   example3() {
-    fromEvent(document, 'click')
+    of(1, 2, 3, 4, 5)
       .pipe(
-        timestamp()
+        map(n => {
+          if (n === 4) {
+            throw 'four!';
+          }
+          return n;
+        }),
+        retry(3)
       )
-      .subscribe(event => console.log(event));
+      .subscribe({
+        next: (data) => console.log('Успех:', data),
+        error: (err) => console.error('Ошибка после 3 попыток:', err),
+      });
   } 
 
   example4() {
-    of(1, 2, 3, 4, 5).pipe(
-      toArray()
-    ).subscribe(console.log);
+    of(1, 2, 3, 4, 5)
+      .pipe(
+        map(n => {
+          if (n === 4) {
+            throw 'four!';
+          }
+          return n;
+        }),
+        retry({
+          count: 3,
+          delay: 1000, // Фиксированная задержка 1 сек
+        })
+      )
+      .subscribe({
+        next: (data) => console.log('Успех:', data),
+        error: (err) => console.error('Ошибка после 3 попыток:', err),
+      });
   }
 }
