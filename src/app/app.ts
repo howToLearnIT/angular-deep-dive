@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { fromEvent, map, Observable, scan, throttleTime } from 'rxjs';
+import { from, fromEvent, interval, of, range, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,44 +11,43 @@ import { fromEvent, map, Observable, scan, throttleTime } from 'rxjs';
 export class App {
 
   constructor() {
-    // this.example1();
-    this.example2();
+    this.example1();
+    // this.example2();
+    // this.example3();
+    // this.example4();
+    // this.example5();
+    // this.example6();
   }
 
   example1() {
-    const myPromise = new Promise<number>((resolve, reject) => {
-      setTimeout(() => {
-        resolve(2);
-        // reject();
-      }, 300);
-    });
+    const array = [10, 20, 30];
+    const result = from(array);
 
-    myPromise
-      .then((count) => count * count)
-      .then((result) => {
-        console.log('Result ', result)
-      })
+    result.subscribe(x => console.log(x));
   }
 
   example2() {
-    const observable = new Observable<number>((subscriber) => {
-      subscriber.next(1);
-      subscriber.next(2);
-      subscriber.next(3);
-      setTimeout(() => {
-        subscriber.next(4);
-        subscriber.error(-1);
-        subscriber.complete();
-      }, 1000);
-    });
+    const promise = fetch('https://api.github.com/users?per_page=5');
+    from(promise).subscribe(data => console.log(data));
+  } 
 
-    const observer = {
-      next: ((x: number) => console.log('Next: ' + x)),
-      error: ((err: number) => console.error('Error: ' + err)),
-      complete: () => console.log('Completed'),
-    };
+  example3() {
+    fromEvent(document, 'click').subscribe(event => console.log(event));
+  } 
 
-    observable.subscribe(observer);
+  example4() {
+    timer(1000).subscribe(data => console.log(data));
+  }
 
+  example5() {
+    interval(1000).subscribe(count => console.log(count));
+  }
+
+  example6() {
+    range(1, 3).subscribe(x => console.log(x));
+  }
+
+  example7() {
+    of(10, 20).subscribe(x => console.log(x));
   }
 }
