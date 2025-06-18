@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { concatMap, from, groupBy, map, mergeMap, of, pairwise, scan, switchMap, toArray } from 'rxjs';
+import { debounce, debounceTime, distinctUntilChanged, filter, from, fromEvent, interval, of, skip, skipUntil, skipWhile, take, takeUntil, throttle, throttleTime, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,67 +17,97 @@ export class App {
 		// this.example5();
 		// this.example6();
 		// this.example7();
+		// this.example8();
+		// this.example9();
+		// this.example10();
+		// this.example11();
 	}
 
 	example1() {
 		of(1, 2, 3, 4, 5)
 			.pipe(
-				map(count => count * count),
+				take(2)
 			)
-			.subscribe(result => console.log(result));
+			.subscribe((result) => console.log(result));
 	}
 
 	example2() {
-		of(1, 2, 3)
-			.pipe(
-				scan((total, n) => total + n, 0),
-			)
-			.subscribe(result => console.log(result));
+		const source$ = interval(1000);
+		const clicks$ = fromEvent(document, 'click');
+
+		source$.pipe(takeUntil(clicks$))
+			.subscribe((result)=> console.log(result));
   	}
 
 	example3() {
-		from([1, 2, 3])
-			.pipe(
-				mergeMap(id => fetch(`https://pokeapi.co/api/v2/pokemon/ditto?id=${id}`))
-			)
-			.subscribe(post => console.log(post));
+		const source$ = interval(500);
+		const result$ = source$.pipe(skip(10));
+
+		result$.subscribe((result) => console.log(result));
   	}
 
 	example4() {
-		from([1, 2, 3])
-			.pipe(
-				concatMap(id => fetch(`https://pokeapi.co/api/v2/pokemon/ditto?id=${id}`))
-			)
-			.subscribe(post => console.log(post));
+		const intervalObservable$ = interval(1000);
+		const click$ = fromEvent(document, 'click');
+
+		const emitAfterClick$ = intervalObservable$.pipe(
+  			skipUntil(click$)
+		);
+
+		emitAfterClick$.subscribe(value => console.log(value));
   	}
 
 	example5() {
-		from([1, 2, 3])
-			.pipe(
-				switchMap(id => fetch(`https://pokeapi.co/api/v2/pokemon/ditto?id=${id}`))
-			)
-			.subscribe(post => console.log(post));
+		const source$ = from(['Green Arrow', 'SuperMan', 'Flash', 'SuperGirl', 'Black Canary'])
+		const example$ = source$.pipe(skipWhile(hero => hero !== 'SuperGirl'));
+		example$.subscribe(femaleHero => console.log(femaleHero));
   	}
 
 	example6() {
-		of(
-			{ id: 1, name: 'JavaScript' },
-			{ id: 2, name: 'Parcel' },
-			{ id: 2, name: 'webpack' },
-			{ id: 1, name: 'TypeScript' },
-			{ id: 3, name: 'TSLint' }
-		).pipe(
-			groupBy(p => p.id),
-			mergeMap(group => group.pipe(toArray()))   
-		)
-		.subscribe(p => console.log(p));
-  	}
+		const numbers$ = of(1, 2, 3, 4, 5);
+
+		numbers$
+			.pipe(
+				filter(num => num % 2 === 0)
+			)
+			.subscribe(console.log);
+	}
 
 	example7() {
-		of(1, 2, 3, 4, 5)
-			.pipe(
-				pairwise()
-			)
-			.subscribe(pair => console.log(pair));
+		of(1, 1, 1, 2, 2, 2, 1, 1, 3, 3)
+  			.pipe(distinctUntilChanged())
+  			.subscribe(value => console.log(value));
+  	}
+
+	example8() {
+		const clicks$ = fromEvent(document, 'click');
+		const result$ = clicks$.pipe(debounceTime(1000));
+		result$.subscribe(value => console.log(value));
+  	}
+
+	example9() {
+		const clicks$ = fromEvent(document, 'click');
+		const result$ = clicks$.pipe(debounceTime(1000));
+		result$.subscribe(value => console.log(value));
+  	}	
+	
+	example10() {
+		const clicks$ = fromEvent(document, 'click');
+		const result$ = clicks$.pipe(
+			debounce(() => timer(1000))
+		);
+		result$.subscribe(value => console.log(value));
+  	}
+
+	example11() {
+		const clicks$ = fromEvent(document, 'click');
+		const result$ = clicks$.pipe(throttleTime(1000));
+		result$.subscribe(value => console.log(value));
+  	}
+
+	example12() {
+		const clicks$ = fromEvent(document, 'click');
+		const result$ = clicks$.pipe(throttle(() => interval(1000)));
+		result$.subscribe(value => console.log(value));
   	}
 }
