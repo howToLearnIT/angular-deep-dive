@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { combineLatest, combineLatestAll, concat, concatAll, exhaustAll, forkJoin, fromEvent, interval, map, mergeAll, Observable, of, race, range, startWith, switchAll, take, timer, withLatestFrom, zip } from 'rxjs';
+import { combineLatest, combineLatestAll, concat, concatAll, concatMap, exhaustAll, forkJoin, fromEvent, interval, map, mergeAll, Observable, of, race, range, share, shareReplay, startWith, switchAll, take, timer, withLatestFrom, zip } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +26,7 @@ export class App {
 	}
 
 	example1() {
-		const firstTimer$ = timer(0, 1000);
+		const firstTimer$ = timer(0, 1000); 
 
 		// firstTimer$.subscribe((res) => console.log('FIRST TIMER ', res));
 
@@ -34,9 +34,9 @@ export class App {
 
 		// secondTimer$.subscribe((res) => console.log('SECOND TIMER ', res));
 
-		const combinedTimers = combineLatest([firstTimer$, secondTimer$]);
+		const combinedTimers$ = combineLatest([firstTimer$, secondTimer$]);
 
-		combinedTimers.subscribe(value => console.log(value));
+		combinedTimers$.subscribe(value => console.log(value));
 	}
 
 	example2() {
@@ -50,7 +50,7 @@ export class App {
 		const observable$ = forkJoin({
 			foo: of(1, 2, 3, 4),
 			bar: Promise.resolve(8),
-			baz: timer(4000)
+			baz: interval(2000).pipe(take(2))
 		});
 
 		// const observable$ = forkJoin([
@@ -87,6 +87,7 @@ export class App {
 
 	example6() {
 		const source$ = of(1, 2, 3); // Внешний Observable
+
 		const result$ = source$.pipe(
 			map(value => 
 				interval(1000).pipe(
@@ -101,41 +102,41 @@ export class App {
   	}
 
 	example7() {
-		const clicks = fromEvent(document, 'click');
+		const clicks$ = fromEvent(document, 'click');
 
-		const higherOrder = clicks.pipe(
+		const higherOrder$ = clicks$.pipe(
 			map(() => interval(1000).pipe(take(3)))
 		);
 
-		// clicks.pipe(
+		// clicks$.pipe(
 		// 	concatMap(() => interval(1000).pipe(take(3)))
 		// ).subscribe(result => console.log(result))
 
-		const firstOrder = higherOrder.pipe(concatAll());
+		const firstOrder$ = higherOrder$.pipe(concatAll());
 
-		// firstOrder.subscribe(result => console.log(result));
+		firstOrder$.subscribe(result => console.log(result));
   	}
 
 	example8() {
-		const clicks = fromEvent(document, 'click');
+		const clicks$ = fromEvent(document, 'click');
 
-		const higherOrder = clicks.pipe(
+		const higherOrder$ = clicks$.pipe(
 			map(() => interval(1000).pipe(take(3)))
 		);
 
-		// clicks.pipe(
+		// clicks$.pipe(
 		// 	mergeMap(() => interval(1000).pipe(take(3)))
 		// ).subscribe(result => console.log(result))
 
-		const firstOrder = higherOrder.pipe(mergeAll());
+		const firstOrder$ = higherOrder$.pipe(mergeAll());
 
-		firstOrder.subscribe(result => console.log(result));
+		firstOrder$.subscribe(result => console.log(result));
   	}
 
 	example9() {
-		const clicks = fromEvent(document, 'click');
+		const clicks$ = fromEvent(document, 'click');
 
-		const higherOrder = clicks.pipe(
+		const higherOrder$ = clicks$.pipe(
 			map(() => interval(1000).pipe(take(3)))
 		);
 
@@ -143,15 +144,15 @@ export class App {
 		// 	switchMap(() => interval(1000).pipe(take(3)))
 		// ).subscribe(result => console.log(result))
 
-		const firstOrder = higherOrder.pipe(switchAll());
+		const firstOrder$ = higherOrder$.pipe(switchAll());
 
-		firstOrder.subscribe(result => console.log(result));
+		firstOrder$.subscribe(result => console.log(result));
   	}
 
 	example10() {
-		const clicks = fromEvent(document, 'click');
+		const clicks$ = fromEvent(document, 'click');
 
-		const higherOrder = clicks.pipe(
+		const higherOrder$ = clicks$.pipe(
 			map(() => interval(1000).pipe(take(3)))
 		);
 
@@ -159,36 +160,38 @@ export class App {
 		// 	exhaustMap(() => interval(1000).pipe(take(3)))
 		// ).subscribe(result => console.log(result))
 
-		const firstOrder = higherOrder.pipe(exhaustAll());
+		const firstOrder$ = higherOrder$.pipe(exhaustAll());
 
-		firstOrder.subscribe(result => console.log(result));
+		firstOrder$.subscribe(result => console.log(result));
   	}
 
 	example11() {
 		timer(1000)
 		.pipe(
-			startWith('Первое значение')
+			startWith('Первое значение'),
 		)
 		.subscribe(x => console.log(x));
   	}
 
 	example12() {
-		const clicks = fromEvent(document, 'click');
-		const timer = interval(1000);
-		const result = clicks.pipe(withLatestFrom(timer));
-		result.subscribe(x => console.log(x));
+		const clicks$ = fromEvent(document, 'click');
+		const timer$ = interval(10000);
+		const result$ = clicks$.pipe(withLatestFrom(timer$));
+		// const combinedTimers$ = combineLatest([firstTimer$, secondTimer$]);
+
+		result$.subscribe(x => console.log(x));
   	}
 
 	example13() {
-		const source$ = new Observable(observer => {
-			console.log('Side effect!'); // Выполнится для каждого подписчика
-			observer.next(Math.random());
-		});
-
 		// const source$ = new Observable(observer => {
-		// 	console.log('Side effect!'); // Выполнится только один раз
+		// 	console.log('Side effect!'); // Выполнится для каждого подписчика
 		// 	observer.next(Math.random());
-		// }).pipe(share());
+		// })
+
+		const source$ = new Observable(observer => {
+			console.log('Side effect!'); // Выполнится только один раз
+			observer.next(Math.random());
+		}).pipe(shareReplay());
 
 		source$.subscribe(console.log); // Случайное число 1
 		source$.subscribe(console.log); // Случайное число 2 (side effect снова выполнился)
