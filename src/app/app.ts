@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { Component, computed, Signal, signal, WritableSignal } from '@angular/core';
+import { BehaviorSubject, from, ReplaySubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,73 +13,46 @@ export class App {
 		this.example1();
 		// this.example2();
 		// this.example3();
-		// this.example4();
 	}
 
 	example1() {		
-		const subject$ = new Subject<number>();
-		
-		subject$.subscribe({
-			next: (v) => console.log(`observerA: ${v}`),
-		});
+		const count: WritableSignal<number> = signal(0);
 
-		subject$.subscribe({
-			next: (v) => console.log(`observerB: ${v}`),
-		});
-		
-		subject$.next(1);
-		subject$.next(2);
+		console.log('После инициализации ', count())
+
+		count.set(3);
+
+		console.log('После сета ', count())
+
+		count.update(value => value + 1);
+
+		console.log('После апдейта ', count())
+
 	}
 
-	example2() { 
-		const subject$ = new Subject<number>();
-		
-		subject$.subscribe({
-			next: (v) => console.log(`observerA: ${v}`),
-		});
+	example2() {		
+		const count: WritableSignal<number> = signal(0);
+		const doubleCount: Signal<number> = computed(() => count() * 2);
 
-		subject$.subscribe({
-			next: (v) => console.log(`observerB: ${v}`),
-		});
-		
-		const observable = from([1, 2, 3]);
-		
-		observable.subscribe(subject$);
-  	}
+		console.log('Вычисляемый сигнал ', doubleCount());
+		// doubleCount.set(3);
+		count.set(3);
 
-	example3() {
-		const subject$ = new BehaviorSubject(0); // 0 is the initial value
- 
-		subject$.subscribe({
-			next: (v) => console.log(`observerA: ${v}`),
-		});
-		
-		subject$.next(1);
-		subject$.next(2);
-		
-		subject$.subscribe({
-			next: (v) => console.log(`observerB: ${v}`),
-		});
-		
-		subject$.next(3);
-  	}
+		console.log('Вычисляемый сигнал после обновления count', doubleCount());
 
-	example4() {
-		const subject$ = new ReplaySubject(3);
+	}
 
-		subject$.subscribe({
-			next: (v) => console.log(`observerA: ${v}`),
+	example3() {		
+		const showCount = signal(false);
+		const count = signal(0);
+		const conditionalCount = computed(() => {
+			console.log('Вычисляем conditionalCount')
+
+			if (showCount()) {
+				return `The count is ${count()}.`;
+			} else {
+				return 'Nothing to see here!';
+			}
 		});
-		
-		subject$.next(1);
-		subject$.next(2);
-		subject$.next(3);
-		subject$.next(4);
-		
-		subject$.subscribe({
-			next: (v) => console.log(`observerB: ${v}`),
-		});
-		
-		subject$.next(5);
-  	}
+	}
 }
