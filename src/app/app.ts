@@ -1,4 +1,4 @@
-import { Component, effect, linkedSignal, Signal, signal, untracked, WritableSignal } from '@angular/core';
+import { Component, linkedSignal, signal, WritableSignal } from '@angular/core';
 import { timer } from 'rxjs';
 
 @Component({
