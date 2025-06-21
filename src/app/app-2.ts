@@ -11,8 +11,18 @@ import { timer } from 'rxjs';
 export class App {
 	options: WritableSignal<number[]> = signal([1, 2, 3, 4, 5]);
 
-	selectedOption = signal(this.options()[0]);
-	// selectedOption = linkedSignal(() => this.options()[0]);
+	selectedOption = linkedSignal({
+		source: this.options,
+		computation: (newOptions, previous) => {
+
+			console.log('Новые и старые опции ', newOptions, previous);
+
+			return (
+				newOptions.find((opt) => opt === previous?.value) ?? newOptions[0]
+			);
+    	},
+	});
+
 
 	constructor() {
 		console.log('Выбранная опция ', this.selectedOption())
