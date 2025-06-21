@@ -26,9 +26,35 @@ export class App {
 			this.options.set([5, 4, 3, 2, 1])
 			console.log('Выбранная опция ', this.selectedOption())
 		})
+
+		// this.exampleEqual();
 	}
 
 	changeOption(newOptionIndex: number) {
 		this.selectedOption.set(this.options()[newOptionIndex]);
+	}
+
+	exampleEqual() {
+		const activeUser = signal({id: 123, name: 'Morgan', isAdmin: true});
+
+		const activeUserEditCopy = linkedSignal(() => activeUser(), {
+			equal: (a, b) => a.id === b.id,
+		});
+
+		// const activeUserEditCopy = linkedSignal({
+		// 	source: activeUser,
+		// 	computation: user => user,
+		// 	equal: (a, b) => a.id === b.id,
+		// });
+
+		console.log('Юзер с возможностью редактирования ', activeUserEditCopy());
+
+		activeUser.set({id: 123, name: 'NOT Morgan', isAdmin: false})
+
+		console.log('Юзер с возможностью редактирования ', activeUserEditCopy());
+
+		// activeUser.set({id: 1, name: 'NOT Morgan', isAdmin: false})
+
+		// console.log('Юзер с возможностью редактирования ', activeUserEditCopy());
 	}
 }
