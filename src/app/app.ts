@@ -1,4 +1,4 @@
-import { Component, effect, signal, untracked, WritableSignal } from '@angular/core';
+import { Component, effect, linkedSignal, Signal, signal, untracked, WritableSignal } from '@angular/core';
 import { timer } from 'rxjs';
 
 @Component({
@@ -9,43 +9,26 @@ import { timer } from 'rxjs';
   imports: [],
 })
 export class App {
-	age: WritableSignal<number> = signal(18);
- 	user: WritableSignal<string> = signal('Иван');
+	options: WritableSignal<number[]> = signal([1, 2, 3, 4, 5]);
+
+	selectedOption = signal(this.options()[0]);
+	// selectedOption = linkedSignal(() => this.options()[0]);
 
 	constructor() {
-		effect(() => {
-			console.log(`Юзер ${this.user()} и возраст ${untracked(this.age)}`);
-		});
+		console.log('Выбранная опция ', this.selectedOption())
 
-		timer(1000).subscribe(() => {
-			this.user.set('Андрей')
-		});
+		timer(1000).subscribe(()=> {
+			this.changeOption(2);
+			console.log('Выбранная опция ', this.selectedOption())
+		})
 
-		timer(2000).subscribe(() => {
-			this.age.set(19)
-		});
-
-		// effect(() => {
-		// 	const user = this.user();
-			
-		// 	untracked(() => {
-		// 		const age = this.age()
-		// 		console.log('Этот код не зависит от возраста ', this.age());
-		// 	});
-		// });
+		timer(3000).subscribe(()=> {
+			this.options.set([5, 4, 3, 2, 1])
+			console.log('Выбранная опция ', this.selectedOption())
+		})
 	}
 
-	cleanup() {
-		effect((onCleanup) => {
-			const user = this.user();
-
-			const timer = setTimeout(() => {
-				console.log(`10 секунд прошло ${user}`);
-			}, 10000);
-
-			onCleanup(() => {
-				clearTimeout(timer);
-			});
-		});
+	changeOption(newOptionIndex: number) {
+		this.selectedOption.set(this.options()[newOptionIndex]);
 	}
 }
