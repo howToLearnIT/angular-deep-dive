@@ -49,9 +49,9 @@ export class App {
 			console.log('Вычисляем conditionalCount')
 
 			if (showCount()) {
-				return `The count is ${count()}.`;
+				return `Счетчик ${count()}.`;
 			} else {
-				return 'Nothing to see here!';
+				return 'Тут нечего смотреть!';
 			}
 		});
 	}
