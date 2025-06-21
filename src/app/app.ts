@@ -1,5 +1,5 @@
-import { Component, computed, Signal, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, from, ReplaySubject, Subject } from 'rxjs';
+import { Component, effect, signal, untracked, WritableSignal } from '@angular/core';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,50 +9,43 @@ import { BehaviorSubject, from, ReplaySubject, Subject } from 'rxjs';
   imports: [],
 })
 export class App {
+	age: WritableSignal<number> = signal(18);
+ 	user: WritableSignal<string> = signal('Иван');
+
 	constructor() {
-		this.example1();
-		// this.example2();
-		// this.example3();
+		effect(() => {
+			console.log(`Юзер ${this.user()} и возраст ${untracked(this.age)}`);
+		});
+
+		timer(1000).subscribe(() => {
+			this.user.set('Андрей')
+		});
+
+		timer(2000).subscribe(() => {
+			this.age.set(19)
+		});
+
+		// effect(() => {
+		// 	const user = this.user();
+			
+		// 	untracked(() => {
+		// 		const age = this.age()
+		// 		console.log('Этот код не зависит от возраста ', this.age());
+		// 	});
+		// });
 	}
 
-	example1() {		
-		const count: WritableSignal<number> = signal(0);
+	cleanup() {
+		effect((onCleanup) => {
+			const user = this.user();
 
-		console.log('После инициализации ', count())
+			const timer = setTimeout(() => {
+				console.log(`10 секунд прошло ${user}`);
+			}, 10000);
 
-		count.set(3);
-
-		console.log('После сета ', count())
-
-		count.update(value => value + 1);
-
-		console.log('После апдейта ', count())
-
-	}
-
-	example2() {		
-		const count: WritableSignal<number> = signal(0);
-		const doubleCount: Signal<number> = computed(() => count() * 2);
-
-		console.log('Вычисляемый сигнал ', doubleCount());
-		// doubleCount.set(3);
-		count.set(3);
-
-		console.log('Вычисляемый сигнал после обновления count', doubleCount());
-
-	}
-
-	example3() {		
-		const showCount = signal(false);
-		const count = signal(0);
-		const conditionalCount = computed(() => {
-			console.log('Вычисляем conditionalCount')
-
-			if (showCount()) {
-				return `The count is ${count()}.`;
-			} else {
-				return 'Nothing to see here!';
-			}
+			onCleanup(() => {
+				clearTimeout(timer);
+			});
 		});
 	}
 }
