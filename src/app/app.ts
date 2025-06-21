@@ -1,5 +1,4 @@
 import { Component, computed, Signal, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, from, ReplaySubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
