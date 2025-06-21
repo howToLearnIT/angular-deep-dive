@@ -1,4 +1,4 @@
-import { Component, effect, signal, untracked, WritableSignal } from '@angular/core';
+import { Component, effect, inject, Injector, signal } from '@angular/core';
 import { timer } from 'rxjs';
 
 @Component({
@@ -9,43 +9,27 @@ import { timer } from 'rxjs';
   imports: [],
 })
 export class App {
-	age: WritableSignal<number> = signal(18);
- 	user: WritableSignal<string> = signal('Иван');
+  	readonly count = signal(0);
 
 	constructor() {
 		effect(() => {
-			console.log(`Юзер ${this.user()} и возраст ${untracked(this.age)}`);
+			console.log(`Счетчик: ${this.count()}`);
 		});
 
-		timer(1000).subscribe(() => {
-			this.user.set('Андрей')
-		});
-
-		timer(2000).subscribe(() => {
-			this.age.set(19)
-		});
-
-		// effect(() => {
-		// 	const user = this.user();
-			
-		// 	untracked(() => {
-		// 		const age = this.age()
-		// 		console.log('Этот код не зависит от возраста ', this.age());
-		// 	});
-		// });
+		timer(1000).subscribe(()=> {
+			this.count.set(1);
+			// this.initializeLogging();
+		})
 	}
 
-	cleanup() {
-		effect((onCleanup) => {
-			const user = this.user();
+	// private loggingEffect = effect(() => {
+	// 	console.log(`Счетчик: ${this.count()}`);
+	// });
+	// private injector = inject(Injector);
 
-			const timer = setTimeout(() => {
-				console.log(`10 секунд прошло ${user}`);
-			}, 10000);
-
-			onCleanup(() => {
-				clearTimeout(timer);
-			});
-		});
-	}
+	// initializeLogging(): void {
+	// 	effect(() => {
+	// 		console.log(`Счетчик из метода: ${this.count()}`);
+	// 	}, {injector: this.injector});
+  	// }
 }
