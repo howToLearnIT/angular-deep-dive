@@ -1,7 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 
 @Component({
-  selector: '[type="reset"]',
-  template: 'Для ресета',
+    selector: 'component-2',
+    template: `
+        <p class="blue">Локальный синий</p>
+    `,
+    encapsulation: ViewEncapsulation.Emulated,
 })
-export class ResetButton {}
+export class Component2 { }
