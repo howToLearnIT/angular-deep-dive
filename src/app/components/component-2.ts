@@ -1,10 +1,13 @@
-import { Component, ViewEncapsulation } from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 
 @Component({
     selector: 'component-2',
     template: `
-        <p class="blue">Локальный синий</p>
+        {{ label() }}
     `,
-    encapsulation: ViewEncapsulation.Emulated,
 })
-export class Component2 { }
+export class Component2 {
+    value = input.required<number>();
+
+    label = computed(() => `Значение слайдера ${this.value()}`); 
+}
