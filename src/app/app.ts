@@ -1,26 +1,26 @@
-import { Component, signal } from '@angular/core';
-import { Component1 } from './components/component-1';
-import { Component2 } from './components/component-2';
-import { Component3 } from './components/component-3';
-import { Component4 } from './components/component-4';
-import { Component5 } from './components/component-5';
-import { Component6 } from './components/component-6';
-import { Component7 } from './components/component-7';
+import { AfterViewInit, Component, signal, ViewChild } from '@angular/core';
+import { ExpandablePanel } from './components/expandable-panel';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [Component1, Component2, Component3, Component4, Component5, Component6, Component7],
+	imports: [ExpandablePanel],
 })
-export class App {
-	volume = signal(0);
+export class App implements AfterViewInit {
+	@ViewChild('panel') panelRef: ExpandablePanel | null = null
 
-	onIncrease() {
-		this.volume.update(oldValue => oldValue + 100);
+	ngAfterViewInit(): void {
+		this.panelRef?.panelSelected.subscribe((panel)=> {
+			console.log('Подписался не через шаблон ', panel)
+		})
 	}
 
-	onVolumeChange(volume: number) {
-		console.log('Обновленное значение ', volume);
+	onPanelSelected(panel: number): void {
+		console.log('Выбрана панель ', panel);
+	}
+
+	onClosed(closed: boolean): void {
+		console.log('Закрылся ', closed)
 	}
 }

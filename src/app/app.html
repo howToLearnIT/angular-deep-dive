@@ -1,17 +1,6 @@
-<component-1 [value]="2"></component-1>
-
-<component-2 [value]="5"></component-2>
-
-<component-3 label="    Лейбл    "></component-3>
-
-<component-4 [widthPx]="100"></component-4>
-
-<component-5 disabled value="100"></component-5>
-
-<component-6 [sliderValue]="100"></component-6>
-
-<component-7 [(value)]="volume" (valueChange)="onVolumeChange($event)"></component-7>
-
-<p>Значение в app.html {{volume()}}</p>
-
-<button (click)="onIncrease()"> Увеличть на 100</button>
+<expandable-panel 
+    #panel 
+    (panelSelected)="onPanelSelected($event)"
+    (closeEvent)="onClosed($event)"
+>
+</expandable-panel>
