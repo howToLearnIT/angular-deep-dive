@@ -10,4 +10,8 @@
 
 <component-6 [sliderValue]="100"></component-6>
 
-<component-7 [(value)]="volume"></component-7>
+<component-7 [(value)]="volume" (valueChange)="onVolumeChange($event)"></component-7>
+
+<p>Значение в app.html {{volume()}}</p>
+
+<button (click)="onIncrease()"> Увеличть на 100</button>
