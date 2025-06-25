@@ -1,6 +1,24 @@
-<expandable-panel 
-    #panel 
-    (panelSelected)="onPanelSelected($event)"
-    (closeEvent)="onClosed($event)"
->
-</expandable-panel>
+<card-1> Карточка </card-1>
+
+<card-2> 
+    <h2 yt-title>Заголовок карточки</h2>
+    <p yt-description>Описание карточки</p>
+</card-2>
+
+<card-3>
+    <card-title>Заголовок карточки</card-title>
+    <card-description>Описание карточки</card-description>
+</card-3>
+
+<card-3>
+    <h2 card-title>Заголовок карточки</h2>
+    <p card-description>Описание карточки</p>
+</card-3>
+
+<card-3>
+    <h2 card-title>Заголовок без описания</h2>
+</card-3>
+
+<card-3>
+    <h2 ngProjectAs="card-title">Заголовок алиасный</h2>
+</card-3>

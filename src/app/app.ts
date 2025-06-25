@@ -1,26 +1,16 @@
-import { AfterViewInit, Component, signal, ViewChild } from '@angular/core';
-import { ExpandablePanel } from './components/expandable-panel';
+import { Component } from '@angular/core';
+import { Card1 } from './components/card-1';
+import { Card2 } from './components/card-2';
+import { Card3 } from './components/card-3';
+import { CardTitle } from './components/card-title';
+import { CardDescription } from './components/card-description';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [ExpandablePanel],
+	imports: [Card1, Card2, Card3, CardTitle, CardDescription],
 })
-export class App implements AfterViewInit {
-	@ViewChild('panel') panelRef: ExpandablePanel | null = null
+export class App {
 
-	ngAfterViewInit(): void {
-		this.panelRef?.panelSelected.subscribe((panel)=> {
-			console.log('Подписался не через шаблон ', panel)
-		})
-	}
-
-	onPanelSelected(panel: number): void {
-		console.log('Выбрана панель ', panel);
-	}
-
-	onClosed(closed: boolean): void {
-		console.log('Закрылся ', closed)
-	}
 }
