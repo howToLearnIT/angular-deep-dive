@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
-import { Slider1 } from './components/slider-1';
-import { Slider2 } from './components/slider-2';
-import { ProfilePhoto } from './components/profile-photo';
+import { Component, OnInit, signal } from '@angular/core';
+import { UserProfile } from './components/user-profile';
+import { timer } from 'rxjs';
+
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [Slider1, Slider2, ProfilePhoto],
+	imports: [UserProfile],
 })
-export class App {}
+export class App implements OnInit {
+	showUser = signal(true);
+	name = signal('Иван');
+
+	ngOnInit(): void {
+		timer(3000).subscribe(()=> {
+			this.name.set('Валентин')
+		})
+
+		timer(6000).subscribe(()=> {
+			this.showUser.set(false);
+		})
+	}
+}
