@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { Card1 } from './components/card-1';
-
+import { Child } from './components/child';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [Card1],
+	imports: [Child],
 })
-export class App {}
+export class App {
+	onNameChange(name: string) {
+		console.log('Имя изменилось на ', name);
+	}
+}
