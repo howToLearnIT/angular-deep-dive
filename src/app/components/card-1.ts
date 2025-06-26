@@ -1,17 +1,20 @@
-import { Component, computed, OnInit, viewChild } from "@angular/core";
-import { CardHeader } from "./card-header";
+import { Component, DOCUMENT, ElementRef, inject, OnInit, Renderer2 } from "@angular/core";
 
 @Component({
     selector: 'card-1',
-    template: '<card-header></card-header>',
-    imports: [CardHeader],
+    template: `
+        Карточка
+    `,
+    imports: [],
 })
 export class Card1 implements OnInit {
-    header = viewChild(CardHeader);
-    headerText = computed(() => this.header()?.text);
+    elementRef = inject(ElementRef);
+    document = inject(DOCUMENT);
+    renderer = inject(Renderer2);
 
     ngOnInit() {
-        console.log('HEADER ', this.header())
-        console.log('HEADER TEXT ', this.headerText())
+        console.log('ELEMENT REF ', this.elementRef);
+        console.log('DOCUMENT ', this.document);
+        console.log('RENDERER ', this.renderer);
     }
 }
