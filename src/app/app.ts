@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { TemplateExample } from './components/template-example';
+import { AttributeExample } from './components/attribute-example';
+import { ClassesExample } from './components/classes-example';
+import { StylesExample } from './components/styles-example';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [TemplateExample],
+	imports: [AttributeExample, ClassesExample, StylesExample],
 })
 export class App {}
