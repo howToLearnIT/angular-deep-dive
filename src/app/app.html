@@ -1,3 +1,10 @@
-<if-example />
-<for-example />
-<switch-example />
+<pipe-1 />
+<pipe-2 />
+<pipe-3 />
+
+{{ 'раз два три' |  kebabCase}} <br/><br/>
+{{ 'сообщение' |  customTransformation: 'uppercase'}}
+
+<p>{{ users | joinNamesImpure }}</p>
+
+<button (click)="onAddUser()">Добавить</button>
