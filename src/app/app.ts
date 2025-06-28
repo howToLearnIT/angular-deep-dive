@@ -1,21 +1,13 @@
 import { Component } from '@angular/core';
-import { Pipe1 } from './components/pipe-1';
-import { Pipe2 } from './components/pipe-2';
-import { Pipe3 } from './components/pipe-3';
-import { KebabCasePipe } from './pipes/kebab-case.pipe';
-import { CustomTransformationPipe } from './pipes/custom-transformation';
-import { JoinNamesImpurePipe } from './pipes/join-names-impure';
+import { Template1 } from './components/template-1';
+import { Template2 } from './components/template-2';
+import { Template3 } from './components/template-3';
+import { MyDirective } from './directives/my-directive';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [Pipe1, Pipe2, Pipe3, KebabCasePipe, CustomTransformationPipe, JoinNamesImpurePipe],
+	imports: [Template1, Template2, Template3, MyDirective],
 })
-export class App {
-	users = ['Alice', 'Bob'];
-
-	onAddUser() {
-		this.users.push('New User ' + Math.random());
-  	}
-}
+export class App {}

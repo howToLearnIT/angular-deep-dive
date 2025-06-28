@@ -1,10 +1,10 @@
-<pipe-1 />
-<pipe-2 />
-<pipe-3 />
+<template-1 />
+<template-2 />
+<template-3 />
 
-{{ 'раз два три' |  kebabCase}} <br/><br/>
-{{ 'сообщение' |  customTransformation: 'uppercase'}}
+<template-4>
+    <ng-template myDirective>
+        Кастомный шаблон
+    </ng-template>
+</template-4>
 
-<p>{{ users | joinNamesImpure }}</p>
-
-<button (click)="onAddUser()">Добавить</button>
