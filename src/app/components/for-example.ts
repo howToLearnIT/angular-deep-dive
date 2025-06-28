@@ -15,7 +15,7 @@ import { Component } from "@angular/core";
 
         <br/><br/>
 
-        @for (user of users; track user.id; let first = $first, last = $last, odd = $odd, count = $count) {
+        @for (user of users; track user.id; let first = $first, last = $last, odd = $odd) {
             {{ user.name }} Первый {{first}}, Последний {{ last }}, Нечетный {{ odd }} <br/><br/>
         }
 
@@ -56,5 +56,6 @@ export class ForExample {
         },
     ];
 
-    items = [];
+    items: {name: string}[] = [];
+
 }
