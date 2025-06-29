@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from "@angular/common";
 import { Component, OnInit, TemplateRef, viewChild } from "@angular/core";
 
 @Component({
@@ -8,8 +9,12 @@ import { Component, OnInit, TemplateRef, viewChild } from "@angular/core";
         <ng-template #myFragment>
             <p>Фрагмент шаблона {{count}}</p>
         </ng-template>
+
+        <ng-container *ngTemplateOutlet="myFragment"></ng-container>
     `,
     styleUrl: './styles.css',
+    imports: [NgTemplateOutlet],
+
 })
 export class Template2 implements OnInit {
     template = viewChild(TemplateRef);

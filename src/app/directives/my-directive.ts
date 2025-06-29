@@ -4,7 +4,7 @@ import { Directive, inject, OnInit, TemplateRef } from "@angular/core";
     selector: 'ng-template[myDirective]'
 })
 export class MyDirective implements OnInit {
-    private fragment = inject(TemplateRef);
+    fragment = inject(TemplateRef);
 
     ngOnInit(): void {
         console.log('FRAGMENT ', this.fragment)
