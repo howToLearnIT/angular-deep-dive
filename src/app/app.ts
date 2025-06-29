@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { Template1 } from './components/template-1';
-import { Template2 } from './components/template-2';
-import { Template3 } from './components/template-3';
-import { Template4 } from './components/template-4';
-import { Template5 } from './components/template-5';
-import { Template6 } from './components/template-6';
-import { Template7 } from './components/template-7';
-
-import { MyDirective } from './directives/my-directive';
+import { Container1 } from './components/container-1';
+import { Container2 } from './components/container-2';
+import { Container3 } from './components/container-3';
+import { Container4 } from './components/container-4';
+import { Container5 } from './components/container-5';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.html',
 	styleUrl: './app.css',
-	imports: [Template1, Template2, Template3, Template4, Template5, Template6, Template7, MyDirective],
+	imports: [Container1, Container2, Container3, Container4, Container5],
 })
 export class App {}
