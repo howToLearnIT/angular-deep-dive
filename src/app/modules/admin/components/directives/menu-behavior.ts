@@ -3,6 +3,7 @@ import { timer } from 'rxjs';
 
 @Directive({
 	selector: '[menu-behavior]',
+	standalone: false,
 })
 export class MenuBehavior implements OnInit {
 	menuId = input<string>()

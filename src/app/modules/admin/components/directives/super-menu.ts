@@ -3,11 +3,12 @@ import { MenuBehavior } from "./menu-behavior";
 
 @Directive({
     selector: '[super-menu]',
-    hostDirectives: [{
-		directive: MenuBehavior,
-		inputs: ['menuId'],
-		outputs: ['menuClosed'],
-  	}],
+    // hostDirectives: [{
+	// 	directive: MenuBehavior,
+	// 	inputs: ['menuId'],
+	// 	outputs: ['menuClosed'],
+  	// }],
+    standalone: false,
 })
 export class SuperMenu implements OnInit {
     ngOnInit(): void {
