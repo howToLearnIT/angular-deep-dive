@@ -1,21 +1,5 @@
-<span *ngIf="isActive">
-    Активный
-</span>
+<admin-menu-1 />
+<admin-menu-2 menuId="top-menu" (menuClosed)="onMenuClosed()"/>
+<admin-menu-3 id="top-menu" (closed)="onMenuClosed()"/>
+<admin-menu-4 menuId="top-menu" (menuClosed)="onMenuClosed()"/>
 
-
-<ul>
-    <li *ngFor="let item of items">
-        {{item}}
-    </li>
-</ul>
-
-
-<ng-template #content>
-    Контент
-</ng-template>
-
-<ng-container *ngTemplateOutlet="content"></ng-container>
-
-<div *if-auth>
-    Только для авторизированных пользователей
-</div>
