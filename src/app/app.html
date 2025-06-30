@@ -1,9 +1,18 @@
-<my-component [value]="1"/>
+<div class="content" highlight-1>
+    Текст
+</div>
 
-<my-component  myDirective="Значение" [value]="23"/>
+<div class="content" highlight-2>
+    Текст
+</div>
 
-<p  myDirective="Значение" [value]="23"> Текст </p>
+<div class="content" highlight-3="pink">
+    Текст
+</div>
 
-<ng-container myDirective="Значение" [value]="23">
-    Я в контейнере
-</ng-container>
+<p ngNonBindable>
+    This should not evaluate: {{ 1 + 1 }}
+</p>
+
+
+<div [ngClass]="isSpecial ? 'special' : ''">Специальный див</div>
