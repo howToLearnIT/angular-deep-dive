@@ -1,13 +1,10 @@
-import { NgModule } from '@angular/core';
-import { AdminMenu } from './components';
-import { MenuBehavior, SuperMenu } from './components/directives';
-import { ReactiveFormsModule } from '@angular/forms';
-import { UserService } from './services';
+import { NgModule } from "@angular/core";
+import { Admin } from "./components";
+import { LocalService } from "../../services/local.service";
 
 @NgModule({
-    imports: [ReactiveFormsModule],
-    declarations: [AdminMenu, MenuBehavior, SuperMenu],
-    exports: [AdminMenu, SuperMenu],
-    providers: [UserService],
+  declarations: [Admin],
+  exports: [Admin],
+  providers: [LocalService],
 })
 export class AdminModule { }

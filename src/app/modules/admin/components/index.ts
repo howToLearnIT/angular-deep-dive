@@ -1,1 +1,1 @@
-export * from './admin-menu';
+export * from './admin';

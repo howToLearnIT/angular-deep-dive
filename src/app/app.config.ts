@@ -7,7 +7,10 @@
  */
 
 import {ApplicationConfig} from '@angular/core';
+import { LocalService } from './services/local.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [],
+  // providers: [],
+
+  providers: [LocalService],
 };
