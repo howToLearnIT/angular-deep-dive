@@ -1,18 +1,21 @@
-<div class="content" highlight-1>
-    Текст
+<span *ngIf="isActive">
+    Активный
+</span>
+
+
+<ul>
+    <li *ngFor="let item of items">
+        {{item}}
+    </li>
+</ul>
+
+
+<ng-template #content>
+    Контент
+</ng-template>
+
+<ng-container *ngTemplateOutlet="content"></ng-container>
+
+<div *if-auth>
+    Только для авторизированных пользователей
 </div>
-
-<div class="content" highlight-2>
-    Текст
-</div>
-
-<div class="content" highlight-3="pink">
-    Текст
-</div>
-
-<p ngNonBindable>
-    This should not evaluate: {{ 1 + 1 }}
-</p>
-
-
-<div [ngClass]="isSpecial ? 'special' : ''">Специальный див</div>
