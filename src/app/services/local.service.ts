@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { AdminModule } from "../modules/admin";
 
 @Injectable()
 export class LocalService {
