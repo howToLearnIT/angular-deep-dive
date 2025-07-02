@@ -1,15 +1,16 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { RootService } from "../services/root.service";
+import { LoggerService } from "../services/logger.service";
 
 @Component({
     selector: 'component-1',
     template: 'Компонент 1',
-    providers: [RootService]
+    providers: [LoggerService],
+    // providers: [{ provide: LoggerService, useClass: LoggerService }]
 })
 export class Component1 implements OnInit {
-    rootService = inject(RootService);
+    loggerService = inject(LoggerService);
 
     ngOnInit(): void {
-        console.log('Получил значение из рут сервиса', this.rootService.value);
+        this.loggerService.log('Стандартный лог');
     }
 }

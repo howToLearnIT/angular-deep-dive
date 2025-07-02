@@ -7,10 +7,8 @@
  */
 
 import {ApplicationConfig} from '@angular/core';
-import { LocalService } from './services/local.service';
+import { SCROLL_REF } from './tokens/scroll-ref';
 
 export const appConfig: ApplicationConfig = {
   providers: [],
-
-    // providers: [LocalService],
 };

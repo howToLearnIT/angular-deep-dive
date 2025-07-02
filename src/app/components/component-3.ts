@@ -1,14 +1,21 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { LocalService } from "../services/local.service";
+import { LoggerService } from "../services/logger.service";
+import { AdvancedLoggerService } from "../services/advanced-logger.service";
 
 @Component({
     selector: 'component-3',
     template: 'Компонент 3',
+    providers: [
+        AdvancedLoggerService,
+        { provide: LoggerService, useClass: AdvancedLoggerService }
+    ]
 })
 export class Component3 implements OnInit {
-    localService = inject(LocalService);
+    loggerService = inject(LoggerService);
+    advancedLoggerService = inject(AdvancedLoggerService);
 
     ngOnInit(): void {
-        console.log('Получил значение из локального сервиса в компоненте 3', this.localService.value);
+        this.loggerService.log('Стандартный лог');
+        this.advancedLoggerService.warn('Предупреждение');
     }
 }
