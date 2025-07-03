@@ -6,7 +6,6 @@ import { AdvancedLoggerService } from "../services/advanced-logger.service";
     selector: 'component-1',
     template: 'Компонент 1',
     providers: [LoggerService, AdvancedLoggerService],
-    // providers: [{ provide: LoggerService, useClass: LoggerService }]
 })
 export class Component1 implements OnInit {
     loggerService = inject(LoggerService);
