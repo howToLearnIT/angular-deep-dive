@@ -1,20 +1,16 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { LoggerService } from "../services/logger.service";
-import { AdvancedLoggerService } from "../services/advanced-logger.service";
+import { BrowserStorageService } from "../services/browser-storage.service";
 
 @Component({
     selector: 'component-1',
     template: 'Компонент 1',
-    providers: [LoggerService, AdvancedLoggerService],
-    // providers: [{ provide: LoggerService, useClass: LoggerService }]
+    providers: [BrowserStorageService],
 })
 export class Component1 implements OnInit {
-    loggerService = inject(LoggerService);
-
-    constructor(private advancedLoggerService: AdvancedLoggerService) {}
+    storageService = inject(BrowserStorageService);
 
     ngOnInit(): void {
-        this.loggerService.log('Стандартный лог');
-        this.advancedLoggerService.warn('Предупреждаем!')
+        this.storageService.set('id', '1')
+        console.log('ID ', this.storageService.get('id'));
     }
 }

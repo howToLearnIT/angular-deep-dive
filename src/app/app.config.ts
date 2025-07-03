@@ -7,7 +7,6 @@
  */
 
 import {ApplicationConfig} from '@angular/core';
-import { SCROLL_REF } from './tokens/scroll-ref';
 
 export const appConfig: ApplicationConfig = {
   providers: [],
