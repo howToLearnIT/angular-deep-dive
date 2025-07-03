@@ -1,17 +1,14 @@
+import { EnvironmentInjector, inject, Injectable, Injector, runInInjectionContext } from "@angular/core";
 import { LoggerService } from "./logger.service";
 
+@Injectable()
 export class HeroService {
-    private heroes = ['Бэтмен', 'Робин', 'Женщина-кошка'];
+    private environmentInjector = inject(Injector);
 
-    constructor(
-        private loggerService: LoggerService,
-        private isAuthorized: boolean
-    ) { }
-
-    getHeroes(): string[] {
-        const auth = this.isAuthorized ? 'авторизирован' : 'не авторизирован';
-        this.loggerService.log(`Пользователь ${auth}`);
-
-        return this.heroes.filter(() => this.isAuthorized);
+    someMethod() {
+        runInInjectionContext(this.environmentInjector, () => {
+            const loggerService = inject(LoggerService); 
+            loggerService.log('Лог из HeroService');
+        });
     }
 }

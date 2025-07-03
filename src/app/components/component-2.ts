@@ -1,20 +1,22 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { assertInInjectionContext, Component, inject, OnInit } from "@angular/core";
+import { HeroService } from "../services/hero.service";
 import { LoggerService } from "../services/logger.service";
-import { BetterLoggerService } from "../services/better-logger.service";
-import { UserService } from "../services/user.service";
 
 @Component({
     selector: 'component-2',
     template: 'Компонент 2',
-    providers: [
-        UserService,
-        { provide: LoggerService, useClass: BetterLoggerService }
-    ]
+    providers: [LoggerService, HeroService],
 })
 export class Component2 implements OnInit {
-    loggerService = inject(LoggerService);
+    heroService = inject(HeroService);
+    
+    constructor() {
+        assertInInjectionContext(Component2)
+    }
 
     ngOnInit(): void {
-        this.loggerService.log('Стандартный лог');
+        // assertInInjectionContext(Component2)
+
+        this.heroService.someMethod();
     }
 }
