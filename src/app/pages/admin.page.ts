@@ -7,7 +7,7 @@ import { RouterOutlet } from "@angular/router";
     selector: 'admin-page',
     template: `
         Админка <br/>
-        <router-outlet/>
+        <router-outlet (attach)="onAttach($event)" (deactivate)="onDeactivate($event)"/>
     `,
     imports: [RouterOutlet],
 })
@@ -18,5 +18,13 @@ export class AdminPage implements OnInit {
     ngOnInit(): void {
         console.log('Role', this.adminService.role);
         console.log('Token', this.adminApiToken);
+    }
+
+    onDeactivate(event: unknown) {
+        console.log('Де Активирован ', event);
+	}
+
+    onAttach(event: unknown) {
+        console.log('Аттач ', event);
     }
 }
