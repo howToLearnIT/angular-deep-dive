@@ -1,17 +1,12 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { AdminService } from "../services/admin.service";
 import { ADMIN_API_KEY } from "../tokens/admin-api-key";
-import { RouterOutlet } from "@angular/router";
 
 @Component({
-    selector: 'admin-page',
-    template: `
-        Админка <br/>
-        <router-outlet/>
-    `,
-    imports: [RouterOutlet],
+    selector: 'admin-teams-page',
+    template: 'Команды',
 })
-export class AdminPage implements OnInit {
+export class AdminTeamsPage implements OnInit {
     adminService = inject(AdminService);
     adminApiToken = inject(ADMIN_API_KEY);
 
