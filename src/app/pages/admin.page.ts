@@ -1,13 +1,25 @@
-import { Component } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Component, inject } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: 'admin-page',
     template: `
         Админка <br/>
-        <a routerLink="settings"> Настройки админки</a> <br/>
-        <a [routerLink]="['settings']"> Настройки админки</a>
+        <button (click)="onNavigateToAdminSettings()"> В настройки админки </button>
     `,
-    imports: [RouterLink]
 })
-export class AdminPage {}
+export class AdminPage {
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
+    onNavigateToAdminSettings() {
+    	this.router.navigate(['settings'], {
+            relativeTo: this.route,
+        });
+
+        // this.router.navigate(['settings'], {
+        //     relativeTo: this.route,
+        //     replaceUrl: true,
+        // });
+	}
+}

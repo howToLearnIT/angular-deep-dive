@@ -1,6 +1,6 @@
-<a routerLink="/admin"> Админка </a>
-<a routerLink="/blog"> Блог</a>
+<button (click)="onNavigateToAdmin()">В админку </button>
+<button (click)="onNavigateToBlog()">В блог </button>
+<button (click)="onNavigateToUser()">К пользователю </button>
 
-<a href="http://localhost:4200/admin">Абсолютный путь в админку</a>
 
 <router-outlet/>
