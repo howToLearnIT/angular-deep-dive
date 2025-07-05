@@ -6,8 +6,7 @@ import { RouterLink } from "@angular/router";
     template: `
         Домашняя страница <br/>
 
-        <a [routerLink]="['user', userId]"> К пользователю</a>
-
+        <a [routerLink]="['user', userId]" [queryParams]="{gaUuid: '423423'}"> К пользователю</a>
     `,
     imports: [RouterLink]
 })

@@ -5,8 +5,12 @@
     align-items: flex-start;
 }
 
-.scrollable {
-    overflow: auto;
-    max-height: 200px;
-    max-width: 100px;
+._active {
+    color: red;
+    text-decoration: none;
 }
+
+._blue {
+    color: blue;
+}
+

@@ -1,6 +1,14 @@
-<a routerLink="/admin"> Админка </a>
-<a routerLink="/blog"> Блог</a>
+<a routerLink="/blog" [queryParams]="{category: 'cinema'}"> Блог</a>
 
-<a href="http://localhost:4200/admin">Абсолютный путь в админку</a>
+<a routerLink="/admin" routerLinkActive="_active"> Админка </a>
+
+<a 
+    routerLink="/admin" 
+    [routerLinkActive]="['_active', '_blue']" 
+    ariaCurrentWhenActive="page"
+    [routerLinkActiveOptions]="{exact: true}"
+> 
+     Админка 
+</a>
 
 <router-outlet/>

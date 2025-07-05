@@ -10,5 +10,26 @@ export class UserPage implements OnInit {
 
     ngOnInit(): void {
         console.log(this.route);
+
+        this.readSnapshot();
+        this.listenParams();
+    }
+
+    private readSnapshot() {
+        const snapshot = this.route.snapshot;
+
+        console.log({
+            url: snapshot.url,
+            params: snapshot.params,
+            queryParams: snapshot.queryParams,
+        });
+
+        console.log('ID ', snapshot.paramMap.get('id'));
+    }
+
+    private listenParams() {
+        this.route.params.subscribe((params) => {
+            console.log('Новый ID ', params)
+        });
     }
 }
