@@ -30,6 +30,19 @@ export const routes: Routes = [
         data: { analyticsId: '456' }
     },
     {
+        path: 'legacy-user/:id',
+        redirectTo: 'users/:id'
+    },
+    // {
+    //     path: 'legacy-user/:id',
+    //     redirectTo: (activatedRouteSnapshot) => {
+    //         const id = activatedRouteSnapshot.params['id'];
+
+    //         return id > 10 ? `/user/${id}` : ''
+    //     }
+    // },
+
+    {
         path: 'user/:id/:social-media',
         component: SocialMediaPage,
         title: 'Социальные медиа'
@@ -37,6 +50,7 @@ export const routes: Routes = [
     {
         path: 'articles',
         redirectTo: '/blog',
+        pathMatch: 'full'
     },
     {
         path: 'blog',
@@ -45,7 +59,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        component: NotFoundPage,
-        title: '404'
+        redirectTo: '',
     },
 ];
