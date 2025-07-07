@@ -7,7 +7,13 @@ import { RouterOutlet } from "@angular/router";
     selector: 'admin-page',
     template: `
         Админка <br/>
-        <router-outlet (attach)="onAttach($event)" (deactivate)="onDeactivate($event)"/>
+
+        <router-outlet 
+            (activate)="onActivate($event)" 
+            (deactivate)="onDeactivate($event)"
+            (attach)="onAttach($event)" 
+            (detach)="onDetach($event)" 
+        />
     `,
     imports: [RouterOutlet],
 })
@@ -24,7 +30,15 @@ export class AdminPage implements OnInit {
         console.log('Де Активирован ', event);
 	}
 
+    onActivate(event: unknown) {
+        console.log('Активирован ', event);
+    }
+
     onAttach(event: unknown) {
         console.log('Аттач ', event);
+    }
+
+    onDetach(event: unknown) {
+        console.log('Де Аттач ', event);
     }
 }
